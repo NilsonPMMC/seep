@@ -1,0 +1,46 @@
+# Arquivo: .gitignore
+
+# Arquivos de Segredos e Ambiente
+# NUNCA versionar o arquivo .env! Contém senhas.
+.env
+
+# Ambiente Virtual
+# Pasta enorme e específica da máquina, recriada com 'python -m venv'
+venv/
+env/
+.venv/
+
+# Arquivos de Bytecode e Cache do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Banco de dados local (boa prática incluir)
+*.sqlite3
+db.sqlite3
+
+# Arquivos gerados pelo Django
+# A pasta de estáticos coletados pelo 'collectstatic'
+staticfiles/
+# A pasta de uploads dos usuários
+media/
+
+# Arquivos de Log
+*.log
+logs/
+
+# Configurações de Editores de Código e IDEs
+.vscode/
+.idea/
+*.sublime-*
+
+# Arquivos de Sistema Operacional
+# macOS
+.DS_Store
+# Windows
+Thumbs.db
+desktop.ini
+
+# Arquivos de dependências do Notebook (se usar)
+.ipynb_checkpoints
