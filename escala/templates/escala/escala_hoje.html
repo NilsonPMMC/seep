@@ -1,0 +1,72 @@
+{% extends 'escala/base.html' %}
+
+{% block title %}Plantão Atual{% endblock %}
+
+{% block content %}
+
+    {% if periodo %}
+        <div class="card shadow-sm mb-4">
+            <div class="card-header text-white {% if status == 'ativo' %}bg-success{% else %}bg-primary{% endif %}">
+                <h4 class="my-0 fw-normal">
+                    {% if status == 'ativo' %}
+                        Plantão em Andamento
+                    {% else %}
+                        Próximo Plantão Agendado
+                    {% endif %}
+                </h4>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ periodo.descricao }}</h5>
+                <p class="card-text">
+                    <strong>Início:</strong> {{ periodo.data_inicio|date:"d/m/Y, H:i" }}h <br>
+                    <strong>Fim:</strong> {{ periodo.data_fim|date:"d/m/Y, H:i" }}h
+                </p>
+                <hr>
+                <h6 class="mb-3">Plantonistas Escalados:</h6>
+                <ul class="list-group list-group-flush">
+                    {% for plantonista in periodo.plantonistas_escalados.all %}
+                        <li class="list-group-item">
+                            <strong>{{ plantonista.nome_completo }}</strong> - {{ plantonista.secretaria.nome }} <br>
+                            <small class="text-muted">Telefone(s): {{ plantonista.telefones }}</small>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">Nenhum plantonista escalado para este período.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            Nenhum plantão em andamento ou agendado no momento.
+        </div>
+    {% endif %}
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h4 class="my-0 fw-normal">Contatos Emergenciais</h4>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th>Órgão</th>
+                        <th>Telefone(s)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contato in contatos_emergenciais %}
+                        <tr>
+                            <td>{{ contato.orgao }}</td>
+                            <td>{{ contato.telefones }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="2">Nenhum contato de emergência cadastrado.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

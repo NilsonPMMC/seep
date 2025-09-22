@@ -1,0 +1,1 @@
+Teste de estaticos do Apache OK

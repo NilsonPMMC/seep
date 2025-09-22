@@ -1,0 +1,79 @@
+{% extends 'escala/base.html' %}
+
+{% block title %}Histórico de Plantões{% endblock %}
+
+{% block content %}
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h4 class="my-0 fw-normal">Todos os Períodos de Plantão</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">Data de Início</th>
+                            <th scope="col">Data de Fim</th>
+                            <th scope="col">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for periodo in periodos %}
+                            <tr>
+                                <td>{{ periodo.descricao }}</td>
+                                <td>{{ periodo.data_inicio|date:"d/m/Y, H:i" }}</td>
+                                <td>{{ periodo.data_fim|date:"d/m/Y, H:i" }}</td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">Detalhes</a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center">Nenhum período cadastrado.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if is_paginated %}
+            <nav aria-label="Navegação das páginas">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">Anterior</span>
+                        </li>
+                    {% endif %}
+
+                    {% for page_num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == page_num %}
+                            <li class="page-item active" aria-current="page">
+                                <span class="page-link">{{ page_num }}</span>
+                            </li>
+                        {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Próxima</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">Próxima</span>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
